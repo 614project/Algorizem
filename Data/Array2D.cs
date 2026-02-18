@@ -4,7 +4,7 @@
 /// 편의성이 증가한 2차원 배열입니다.
 /// </summary>
 /// <typeparam name="T">2차원 배열의 자료형</typeparam>
-class Array2D<T> : IEnumerable<(int, int, T)>
+public class Array2D<T> : IEnumerable<(int, int, T)>
 {
     readonly T[,] array;
     /// <summary>
@@ -61,19 +61,23 @@ class Array2D<T> : IEnumerable<(int, int, T)>
     public static explicit operator T[,](Array2D<T> arr) => arr.array;
     private T GetValue(int x , int y)
     {
+#if DEBUG
         if (x < 0 || y < 0 || x >= Width || y >= Height)
         {
-            return ValueForOutOfRange ?? throw new IndexOutOfRangeException($"Vaild range is (0~{Width}, 0~{Height}), But your index is ({x},{y}).");
+            return ValueForOutOfRange ?? throw new IndexOutOfRangeException($"유효한 범위는 (0~{Width}, 0~{Height}) 입니다. 하지만 들어온 주소가 ({x},{y})으로 범위를 초과했습니다.");
         }
+#endif
 
         return array[x , y];
     }
     private void SetValue(int x , int y , T value)
     {
+#if DEBUG
         if (x < 0 || y < 0 || x >= Width || y >= Height)
         {
-            throw new IndexOutOfRangeException($"Vaild range is (0~{Width}, 0~{Height}), But your index is ({x},{y}).");
+            throw new IndexOutOfRangeException($"유효한 범위는 (0~{Width}, 0~{Height}) 입니다. 하지만 들어온 주소가 ({x},{y})으로 범위를 초과했습니다.");
         }
+#endif
 
         array[x , y] = value;
     }

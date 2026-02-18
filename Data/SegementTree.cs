@@ -5,40 +5,40 @@
 /// </summary>
 /// <param name="Start">시작 지점</param>
 /// <param name="End">끝 지점</param>
-public record SegmentTreeRange(int Start,int End)
+public record struct SegmentTreeRange(int Start,int End)
 {
     /// <summary>
     /// 주어진 범위에 이 범위의 전체가 포함되는지 확인합니다.
     /// </summary>
     /// <param name="outer">넓은 범위</param>
     /// <returns>전체 포함 여부</returns>
-    public bool Include(in SegmentTreeRange outer) => outer.Start <= Start && End <= outer.End;
+    public readonly bool Include(SegmentTreeRange outer) => outer.Start <= Start && End <= outer.End;
     /// <summary>
     /// 주어진 범위에 이 범위가 완전히 제외되는지 확인합니다.
     /// </summary>
     /// <param name="outer">넓은 범위</param>
     /// <returns>완전 제외 여부</returns>
-    public bool Exclude(in SegmentTreeRange outer) => outer.End < Start || End < outer.Start;
+    public readonly bool Exclude(SegmentTreeRange outer) => outer.End < Start || End < outer.Start;
     /// <summary>
     /// 주어진 범위와 이 범위의 겹치는 범위를 가져옵니다.
     /// </summary>
     /// <param name="other">비교할 범위</param>
     /// <returns>완전히 겹치지 않을경우 null을 반환합니다.</returns>
-    public SegmentTreeRange? Overlap(in  SegmentTreeRange other)
+    public readonly SegmentTreeRange? Overlap(SegmentTreeRange other)
     {
         int low = Math.Max(Start, other.Start), high = Math.Min(End, other.End);
         if (low > high)
             return null;
-        return new SegmentTreeRange(low, high);
+        return new(low, high);
     } 
     /// <summary>
     /// 단일 범위인지 확인합니다.
     /// </summary>
-    public bool IsSingle => Start == End;
+    public readonly bool IsSingle => Start == End;
     /// <summary>
     /// 해당 범위가 가지는 크기입니다.
     /// </summary>
-    public int Count => End - Start + 1;
+    public readonly int Count => End - Start + 1;
 }
 
 /// <summary>
@@ -62,7 +62,7 @@ public class SegementTreeNode
     /// 노드를 생성합니다. 범위를 지정하면 리프노드까지 연쇄적으로 생성됩니다.
     /// </summary>
     /// <param name="range">범위</param>
-    public SegementTreeNode(in SegmentTreeRange range)
+    public SegementTreeNode(SegmentTreeRange range)
     {
         if ((Range = range).IsSingle)
         {
@@ -70,7 +70,7 @@ public class SegementTreeNode
         }
 
         int mid = (Range.Start + Range.End) / 2;
-        Left = new SegementTreeNode(range with { End = mid });
-        Right = new SegementTreeNode(range with { Start = mid + 1 });
+        Left = new(range with { End = mid });
+        Right = new(range with { Start = mid + 1 });
     }
 }

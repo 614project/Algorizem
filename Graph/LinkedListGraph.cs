@@ -1,11 +1,10 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Algorizem.Graph;
+﻿namespace Algorizem.Graph;
 
 /// <summary>
 /// LinkedList로 구현된 단순 그래프입니다.
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">저장할 정점 정보</typeparam>
+[Obsolete("특별한 이유가 없다면 ListGraph를 사용하는것이 성능상 권장됩니다.")]
 public abstract class LinkedListGraph<T>
 {
     /// <summary>
@@ -26,12 +25,5 @@ public abstract class LinkedListGraph<T>
         this.Lines = new LinkedList<T>[count];
         for (int i = 0 ; i < count ; i++)
             this.Lines[i] = new();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private protected void _CheckPointIndex(in uint point)
-    {
-        if (point >= Count)
-            throw new AlgorizemException($"정점 번호는 {Count - 1} 이하여야 합니다.");
     }
 }

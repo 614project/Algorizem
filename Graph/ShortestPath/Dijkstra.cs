@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-
-namespace Algorizem.Graph.ShortestPath;
+﻿namespace Algorizem.Graph.ShortestPath;
 
 /// <summary>
 /// 데이크스트라(다익스트라) 알고리즘입니다.
 /// </summary>
-public class Dijkstra : LinkedListGraph<(uint point,ulong distance)>
+public class Dijkstra : ListGraph<(uint point,ulong distance)>
 {
     /// <summary>
     /// 데이크스트라를 사용할수 있는 그래프를 생성합니다.
     /// </summary>
     /// <param name="count">정점의 갯수</param>
-    public Dijkstra(in uint count) : base(count) { }
+    public Dijkstra(uint count) : base(count) { }
     /// <summary>
     /// 단방향 간선을 추가합니다.
     /// </summary>
     /// <param name="starting">시작점</param>
     /// <param name="ending">도착점</param>
     /// <param name="distance">거리</param>
-    public virtual void AddOneWay(in uint starting , in uint ending , in ulong distance)
+    public virtual void AddOneWay(uint starting , uint ending , ulong distance)
     {
-        _CheckPointIndex(starting);
-        _CheckPointIndex(ending);
-        this.Lines[starting].AddLast((ending, distance));
+        CheckRange(starting , ending);
+        this.Lines[starting].Add((ending, distance));
     }
     /// <summary>
     /// 동일한 거리의 양방향 간선을 추가합니다.
@@ -33,8 +27,9 @@ public class Dijkstra : LinkedListGraph<(uint point,ulong distance)>
     /// <param name="starting">시작점</param>
     /// <param name="ending">도착점</param>
     /// <param name="distance">거리</param>
-    public virtual void AddTwoWay(in uint starting , in uint ending , in ulong distance)
+    public virtual void AddTwoWay(uint starting , uint ending , ulong distance)
     {
+        CheckRange(starting , ending);
         this.AddOneWay(starting , ending , distance);
         this.AddOneWay(ending , starting , distance);
     }
@@ -42,12 +37,13 @@ public class Dijkstra : LinkedListGraph<(uint point,ulong distance)>
     /// 데이크스트라를 실행합니다.
     /// </summary>
     /// <param name="starting">시작점</param>
+    /// <param name="inf">초기화에 사용될 도달 불가능한 거리</param>
     /// <returns>시작점으로부터 각 정점별 거리</returns>
-    public virtual ulong[] Run(in uint starting)
+    public virtual ulong[] Run(uint starting, ulong inf = ulong.MaxValue)
     {
-        _CheckPointIndex(starting);
+        CheckRange(starting);
         ulong[] TotalDistance = new ulong[Count];
-        Array.Fill(TotalDistance , ulong.MaxValue);
+        Array.Fill(TotalDistance , inf);
         TotalDistance[starting] = 0;
 
         PriorityQueue<uint , ulong> queue = new();

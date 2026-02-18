@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Algorizem.Graph.NetworkFlow;
+﻿namespace Algorizem.Graph.NetworkFlow;
 
 /// <summary>
 /// 애드몬드 카프 (최대 유량) 알고리즘입니다.
 /// </summary>
-public class EdmondsKarp : LinkedListGraph<EdmondsKarp.FlowLine>
+public class EdmondsKarp : ListGraph<EdmondsKarp.FlowLine>
 {
     /// <summary>
     /// 유량이 포함된 간선 정보입니다.
@@ -67,20 +61,16 @@ public class EdmondsKarp : LinkedListGraph<EdmondsKarp.FlowLine>
     /// <param name="starting">시작점</param>
     /// <param name="ending">도착점</param>
     /// <param name="limit">제한</param>
-    public virtual void AddLine(uint starting,uint ending,long limit)
-    {
-        AddLine(new FlowLine(starting, ending, limit));
-    }
+    public virtual void AddLine(uint starting,uint ending,long limit) => AddLine(new FlowLine(starting , ending , limit));
     /// <summary>
     /// 유량 간선을 추가합니다.
     /// </summary>
     /// <param name="line">간선</param>
     public virtual void AddLine(FlowLine line)
     {
-        _CheckPointIndex(line.Starting);
-        _CheckPointIndex(line.Destination);
-        this.Lines[line.Starting].AddLast(line);
-        this.Lines[line.Destination].AddLast(line.Reverse);
+        CheckRange(line.Starting , line.Destination);
+        this.Lines[line.Starting].Add(line);
+        this.Lines[line.Destination].Add(line.Reverse);
     }
     /// <summary>
     /// 최대 유량을 계산합니다.
@@ -90,6 +80,7 @@ public class EdmondsKarp : LinkedListGraph<EdmondsKarp.FlowLine>
     /// <returns>최대 유량</returns>
     public virtual long Run(in uint source,in uint sink)
     {
+        CheckRange(source , sink);
         long result = 0;
         Queue<uint> queue = new(); //BFS용 큐
         while (true)
