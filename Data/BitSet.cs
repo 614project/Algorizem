@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace Algorizem.Data;
 
@@ -8,7 +8,9 @@ namespace Algorizem.Data;
 public class BitSet : IEnumerable<bool>
 {
     readonly uint[] boolearns;
-    
+    /// <summary>
+    /// 원소 개수
+    /// </summary>
     public uint Count { get; }
     /// <summary>
     /// 비트셋을 생성합니다.

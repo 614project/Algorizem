@@ -1,4 +1,4 @@
-﻿namespace Algorizem.Data;
+namespace Algorizem.Data;
 
 /// <summary>
 /// 세그먼트 트리에 사용될 범위 자료형입니다.
@@ -44,7 +44,7 @@ public record struct SegmentTreeRange(int Start,int End)
 /// <summary>
 /// 세그먼트 트리의 노드입니다.
 /// </summary>
-public class SegementTreeNode
+public class SegmentTreeNode
 {
     /// <summary>
     /// 노드의 범위입니다.
@@ -53,16 +53,16 @@ public class SegementTreeNode
     /// <summary>
     /// 노드의 왼쪽 자식 노드입니다.
     /// </summary>
-    public SegementTreeNode? Left { get; } = null;
+    public SegmentTreeNode? Left { get; } = null;
     /// <summary>
     /// 노드의 오른쪽 자식 노드입니다.
     /// </summary>
-    public SegementTreeNode? Right { get; } = null;
+    public SegmentTreeNode? Right { get; } = null;
     /// <summary>
     /// 노드를 생성합니다. 범위를 지정하면 리프노드까지 연쇄적으로 생성됩니다.
     /// </summary>
     /// <param name="range">범위</param>
-    public SegementTreeNode(SegmentTreeRange range)
+    public SegmentTreeNode(SegmentTreeRange range)
     {
         if ((Range = range).IsSingle)
         {

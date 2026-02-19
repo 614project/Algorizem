@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Algorizem.Data;
 
 /// <summary>
@@ -13,6 +7,9 @@ public class Compressor : IEnumerable<KeyValuePair<long , int>>
 {
     readonly Dictionary<long , int> big2small = new();
     readonly long[] small2big;
+    /// <summary>
+    /// 원소 개수
+    /// </summary>
     public int Count { get; }
     /// <summary>
     /// 압축기를 생성합니다.
